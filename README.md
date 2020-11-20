@@ -95,7 +95,7 @@ Compile o código e execute a classe "Produtor" pela sua IDE ou via linha de com
 
 
 ## Conclusão
-Vimos aqui com podemos implementar conceitos para termos de forma concorrente duas versões diferentes de um mesmo micro serviço baseado em eventos trabalhando em paralelo consumindo eventos do mesmo tópico mas segregados por algum critério de negócio. 
+Vimos aqui como podemos implementar conceitos para termos de forma concorrente duas versões diferentes de um mesmo micro serviço baseado em eventos trabalhando em paralelo consumindo eventos do mesmo tópico mas segregados por algum critério de negócio. 
 
 Em um exemplo real tenha mais partições para seu tópico e reserve um percentual delas para estratégias de canary ou teste A/B. 
 
