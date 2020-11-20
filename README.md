@@ -28,20 +28,23 @@ Partitioner: é o componente da API Kafka do produtor que é quem decide para qu
 
 Agora que entendemos como a API do Kafka trabalha para distribuir mensagens nas partições vamos as possíveis soluções.
 1.	O produtor no momento de criar a mensagem já informa em qual partição quer gravar o evento. 
- 
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/produtornormal.png)
 
 Neste exemplo a mágica esta nas linhas 73,74,75,76,77.. Ali usamos uma classe do java para de forma randômica escolher uma partição entre 0 e 2 caso o valor do pedido seja maior que 50, caso contrário o evento será gravado na partição 3.
 
 Perceba na linha 81 que no momento da criação do registro um parâmetro a mais, que é opcional, é informado dizendo o rKafka em qual partição você deseja gravar o evento. Para isso usamos o código anterior para decidir. 
 
 2.	Outra alternativa um pouco mais elegante é usar um particionador customizado que tenha essa regra do particionamento. Para isto basta criar uma classe que implemente a interface org.apache.kafka.clients.producer.Partitioner conforme o exemplo abaixo:
- 
+
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/produtor2.png)
+
 Dois pontos importantes, primeiro o método configure que recebe os parâmetros do cliente, coloquei na linha 17 um código para procurar por uma configuração nova que eu mesmo defini, onde o usuário vai configurar até que valor o pedido será enviado para a partição 3 (onde será atendido pela aplicação na versão mais nova). 
 
 No método "partition" que começa na linha temos a regra de negócio que estava explicita no Produtor e que agora será processada aqui, ela é bem simples e muito parecida com a do exemplo 1, caso o pedido seja maior que o valor configurado, ele escolherá de forma aleatória uma partição entre 0 e 2, caso contrário irá para a partição 3. 
 
 Neste modelo o Produtor fica mais simples, e exige duas configurações adicionais. 
- 
+
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/produtor2config.png)
 
 Na linha 102, temos que informar qual é a classe que será responsável por definir em qual partição o evento será gravado. Na linha 103 temos a parâmetro novo que criamos que será usado para tomar a decisão pelo lado do particionador.
 
@@ -51,12 +54,12 @@ A criação do registro desta vez, que ocorre na linha 109, não precisa mais in
 Independente da abordagem que você usou, ou a primeira ou a segunda, temos agora um produtor que respeitando um critério de negócio, no nosso caso valor do pedido, separa determinados eventos em uma partição separada para ser usada por uma versão nova geralmente em teste da aplicação. 
 
 A versão V1 do consumidor seria como o exemplo abaixo:
- 
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/consumidorv1.png)
 
 Entre as linhas 40 e 45 está o segredo, primeiro criamos um array com a lista de partições que esta aplicação consumir eventos, neste caso omitimos a partição 3 que será dedicada a eventos para a versão V2 da nossa aplicação. Outro ponto que vale a menção ocorre na linha 45 é que ao invés de fazermos o "subscribe" e deixar que o kafka nos diga quais partições nossa aplicação vai ouvir, usamos o método "assign" já com a lista pre-definida. 
 
 A aplicação V2 é exatamente igual, porém escuta apenas os eventos gravados na partição 3 do tópico. 
- 
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/consumidorv2.png)
 
 ## Perparando nosso ambiente:
 ### Pré-requisitos:
@@ -68,11 +71,11 @@ A aplicação V2 é exatamente igual, porém escuta apenas os eventos gravados n
 ### 1 - Kafka
 Cria uma instancia do Kafka executando o comando abaixo:
 
-docker run -d -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 -p 9092:9092 --name=kafka  -e ADV_HOST=127.0.0.1 landoop/fast-data-dev:latest
+`docker run -d -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 -p 9092:9092 --name=kafka  -e ADV_HOST=127.0.0.1 landoop/fast-data-dev:latest`
 
 Agora crie um tópico chamado pedidos com 4 partições usando o comando abaixo:
  
-docker exec -ti kafka bash -c "/opt/landoop/kafka/bin/kafka-topics --create --bootstrap-server localhost:9092 --topic pedidos --partitions 4 --config retention.ms=120000"
+`docker exec -ti kafka bash -c "/opt/landoop/kafka/bin/kafka-topics --create --bootstrap-server localhost:9092 --topic pedidos --partitions 4 --config retention.ms=120000"`
 
 ### 2 - Execute os dois consumidores: V1 e V2
 Compile o código e execute as classes "ConsumidorV1" e "ConsumidorV2" pela sua IDE ou via linha de comando
@@ -82,11 +85,11 @@ Compile o código e execute a classe "Produtor" pela sua IDE ou via linha de com
 
 ### 4 - Verifique o resultado
 •	Nos logs da aplicação V1 só devem ter mensagens com mais de R$ 50,00
- 
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/logconv1.png)
 •	Nos logs da aplicação V2 só devem ter mensagens com valor menor ou igual R$ 50,00
- 
+![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/logconv2.png)
 •	Pela console do Kafka (http://localhost:3030) é possível ver as mensagens distribuídas por partição
-  
+ ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/kafkaconsole.png)
 
 
 ## Conclusão
