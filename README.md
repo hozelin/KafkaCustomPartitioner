@@ -61,7 +61,7 @@ Entre as linhas 40 e 45 está o segredo, primeiro criamos um array com a lista d
 A aplicação V2 é exatamente igual, porém escuta apenas os eventos gravados na partição 3 do tópico. 
 ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/consumidorv2.png)
 
-## Perparando nosso ambiente:
+## Preparando nosso ambiente:
 ### Pré-requisitos:
 - Docker instalado (para rodar o Kafka)
 - 	Java JDK 1.8 ou superior instalado
