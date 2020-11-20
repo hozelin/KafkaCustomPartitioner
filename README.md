@@ -63,10 +63,9 @@ A aplicação V2 é exatamente igual, porém escuta apenas os eventos gravados n
 
 ## Perparando nosso ambiente:
 ### Pré-requisitos:
-•	Docker instalado (para rodar o Kafka)
-•	Java JDK 1.8 ou superior instalado
-•	Maven Instaladopar
-•	Cliente do GitHub instalado para baixar o conteúdo desse repositório.
+- Docker instalado (para rodar o Kafka)
+- 	Java JDK 1.8 ou superior instalado
+- 	Cliente do GitHub instalado para baixar o conteúdo desse repositório.
 
 ### 1 - Kafka
 Cria uma instancia do Kafka executando o comando abaixo:
