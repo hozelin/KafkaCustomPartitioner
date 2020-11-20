@@ -83,10 +83,13 @@ Compile o código e execute as classes "ConsumidorV1" e "ConsumidorV2" pela sua 
 Compile o código e execute a classe "Produtor" pela sua IDE ou via linha de comando para gerar alguns registros para o nosso teste
 
 ### 4 - Verifique o resultado
+
 •	Nos logs da aplicação V1 só devem ter mensagens com mais de R$ 50,00
 ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/logconv1.png)
+
 •	Nos logs da aplicação V2 só devem ter mensagens com valor menor ou igual R$ 50,00
 ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/logconv2.png)
+
 •	Pela console do Kafka (http://localhost:3030) é possível ver as mensagens distribuídas por partição
  ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/kafkaconsole.png)
 
