@@ -15,7 +15,7 @@ Para aplicar esses dois conceitos existem muitos recursos para o mundo de micros
 Para isso usaremos o recurso das partições. Onde dedicaremos um conjunto de partições para atender a versão atual do consumidor, a V1, e uma partição que receberá somente os eventos que serão processados pela versão mais nova da aplicação, a V2.
 
 Aqui no exemplo escolhi o critério do valor do pedido. A aplicação que produz os eventos, dependendo do valor do pedido, maiores que R$ 50,00, enviará o evento para o grupo de partições atendidas pela versão V1 do consumidor e menores ou igual a R$ 50,00 para a partição 3 do tópico que é atendida apenas para a versão nova, a V2 do consumidor. 
- 
+ ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/diagrama01.png)
 
 Para entender como essa solução funciona, precisamos primeiro entender como o Kafka distribui nativamente as mensagens dentro das partições de um tópico na gravação e como ele distribui essas partições entre os consumidores.
 
