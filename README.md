@@ -19,9 +19,11 @@ Aqui no exemplo escolhi o critério do valor do pedido. A aplicação que produz
 
 Para entender como essa solução funciona, precisamos primeiro entender como o Kafka distribui nativamente as mensagens dentro das partições de um tópico na gravação e como ele distribui essas partições entre os consumidores.
 
-#Vocabulário:
+## Vocabulário:
 Tópico: é a referência lógica de onde vamos produzir nossos eventos no mediador. Fazendo uma analogia ao mundo dos bancos de ddos é como se o tópico fosse nossa tabela. 
+
 Partição: cada tópico pode ser dividido em 1 ou mais partições. A partição é o mecanismo que o Kafka usa para escalar a escrita e gravação nos tópicos. Quanto mais partições mais aplicações serão capazes de consumir eventos em paralelo do mesmo tópico.
+
 Partitioner: é o componente da API Kafka do produtor que é quem decide para qual partição uma mensagem será enviada. 
 
 ## Produtor
