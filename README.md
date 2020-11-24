@@ -58,7 +58,7 @@ Independente da abordagem que você usou, ou a primeira ou a segunda, temos agor
 A versão V1 do consumidor seria como o exemplo abaixo:
 ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/consumidorv1.png)
 
-Entre as linhas 40 e 45 está o segredo, primeiro criamos um array com a lista de partições que esta aplicação consumir eventos, neste caso omitimos a partição 3 que será dedicada a eventos para a versão V2 da nossa aplicação. Outro ponto que vale a menção ocorre na linha 45 é que ao invés de fazermos o "subscribe" e deixar que o kafka nos diga quais partições nossa aplicação vai ouvir, usamos o método "assign" já com a lista pre-definida. 
+Entre as linhas 40 e 45 está o segredo, primeiro criamos um array com a lista de partições que esta aplicação irá consumir eventos, neste caso omitimos a partição 3 que será dedicada a eventos para a versão V2 da nossa aplicação. Outro ponto que vale a menção ocorre na linha 45 é que ao invés de fazermos o "subscribe" e deixar que o kafka nos diga quais partições nossa aplicação vai ouvir, usamos o método "assign" já com a lista pre-definida. 
 
 A aplicação V2 é exatamente igual, porém escuta apenas os eventos gravados na partição 3 do tópico. 
 ![alt text](https://github.com/richardseberino/KafkaCustomPartitioner/blob/main/images/consumidorv2.png)
